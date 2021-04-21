@@ -42,5 +42,67 @@ describe('settingbill function', function(){
         assert.equal(45, billSetting.getCritialLevel());
         
     })
-
+    describe('set values function', function(){
+        it('should be able to use the call cost set', function(){
+            
+            let billSetting = settingBill();
+            
+            billSetting.setCallCost(2.25);
+            billSetting.setSmsCost(0.85);
+    
+            billSetting.makeCall();
+            billSetting.makeCall();
+            billSetting.makeCall();
+    
+            assert.equal(6.75, billSetting.getTatolCost());
+            assert.equal(6.75, billSetting.getTatolCallCost());
+            assert.equal(0.00, billSetting.getTatolSmsCost())
+        });
+        
+        it('should be able to use the call cost set for 2 calls at 1.35 each', function(){
+            
+            let billSetting = settingBill();
+            
+            billSetting.setCallCost(1.25);
+            billSetting.setSmsCost(0.85);
+    
+            billSetting.makeCall();
+            billSetting.makeCall();
+    
+            assert.equal(2.50, billSetting.getTatolCost());
+            assert.equal(2.50, billSetting.getTatolCallCost());
+            assert.equal(0.00, billSetting.getTatolSmsCost())
+        });
+        it('should be able to send 2 sms at 0.85 each', function(){
+            
+            let billSetting = settingBill();
+            
+            billSetting.setCallCost(1.35);
+            billSetting.setSmsCost(0.85);
+    
+            billSetting.sendSms();
+            billSetting.sendSms();
+    
+            assert.equal(1.70, billSetting.getTatolCost());
+            assert.equal(0.00, billSetting.getTatolCallCost());
+            assert.equal(1.70, billSetting.getTatolSmsCost());
+        });
+        it('should be able to send 2 sms at 0.85 each and 1 call at 1.00', function(){
+            
+            let billSetting = settingBill();
+            
+            billSetting.setCallCost(1.35);
+            billSetting.setSmsCost(0.85);
+    
+            billSetting.sendSms();
+            billSetting.makeCall();
+            billSetting.sendSms();
+    
+            assert.equal(3.05, billSetting.getTatolCost());
+            assert.equal(1.35, billSetting.getTatolCallCost());
+            assert.equal(1.70, billSetting.getTatolSmsCost());
+        });
+    });
+    
 });
+
